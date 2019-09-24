@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 const Cell = inject('mainStore')(observer(({mainStore, number}) => {
     return (
         <button className="cell" onClick={() => mainStore.ticTacToe.doMove(number)}>
-            {mainStore.ticTacToe.gameBoard[number]}
+            {mainStore.ticTacToe.getCell(number)}
         </button>
     );
 }))
@@ -17,6 +17,23 @@ const GameMessage = inject('mainStore')(observer(({mainStore}) => {
     }
 }))
 
+const History = inject('mainStore')(observer(({mainStore}) => {
+    let historyButtons = [];
+
+    for (let i=0; i < mainStore.ticTacToe.history.length; i++)
+    {
+        historyButtons.push(
+            <button className="history" onClick={() => mainStore.ticTacToe.shiftTime(i)}>
+                {i}
+            </button>)
+    }
+
+    return (
+        <div>{historyButtons}</div>
+        
+    );
+}))
+
 function TicTacToeBoard () {
     function renderCell(number) {
         return (
@@ -27,6 +44,7 @@ function TicTacToeBoard () {
     return (
         <div className="board">
             <GameMessage />
+            <History />
             <div>
                 {renderCell(0)}
                 {renderCell(1)}
