@@ -5,12 +5,46 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch localhost",
+            "name": "Launch client localhost",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
+            "url": "http://localhost:3000/",
+            "webRoot": "${workspaceFolder}",
+            "profile": "debug",
+            "keepProfileChanges": true
+        },
+       /* {
+            "name": "Nodemon Launch Server",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/server",
+            "runtimeExecutable": "/home/johannes/.node_modules/bin/nodemon",
+            "runtimeArgs": [
+                "--inspect=5858",
+                "--http-parser=legacy"
+            ],
+            "program": "${workspaceFolder}/server/src/server.js",
+            "restart": true,
+            "port": 5858,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },*/
+        {
+            "type": "chrome",
+            "request": "launch",
+            "runtimeExecutable": "/usr/bin/chromium",
+            "name": "Launch Chrome localhost",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}"
-        }
+        },
+       /* {
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "node",
+            "name": "Launch Server",
+            "runtimeArgs": [],
+            "program": "${workspaceFolder}/server/src/server.js"
+        },*/
     ]
 }
