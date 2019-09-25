@@ -1,7 +1,7 @@
 import {Provider} from 'mobx-react';
 import React from 'react';
 import MainStore from '../stores/MainStore';
-import TicTacToeBoard from './TicTacToeBoard'
+import TicTacToe from './TicTacToe'
 
 export default class App extends React.Component {
     mainStore = new MainStore();
@@ -16,7 +16,7 @@ export default class App extends React.Component {
 
         return (
             <Provider mainStore={mainStore}>
-                <TicTacToeBoard />
+                <TicTacToe />
             </Provider>
         )
     }
