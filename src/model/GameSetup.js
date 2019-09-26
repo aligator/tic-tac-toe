@@ -1,6 +1,6 @@
 import {observable, decorate, action} from 'mobx';
 
-export class NewGame {
+export class GameSetup {
     name = "";
 
     changeName(value) {
@@ -8,7 +8,7 @@ export class NewGame {
     }
 }
 
-decorate(NewGame, {
+decorate(GameSetup, {
     name: observable,
     changeName: action
 });

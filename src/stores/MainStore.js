@@ -1,23 +1,23 @@
 import {observable, action, decorate} from 'mobx';
 
 import {TicTacToe} from '../model/TicTacToe';
-import { NewGame } from '../model/NewGame';
+import { GameSetup } from '../model/GameSetup';
 
 export default class MainStore {
-    newGame = null;
+    gameSetup = null;
     ticTacToe = null;
 
     setupNewGame() {
-        this.newGame = new NewGame();
+        this.gameSetup = new GameSetup();
     }
 
     getNewTicTacToeGame() {
-        this.ticTacToe = new TicTacToe(this.newGame.name);
+        this.ticTacToe = new TicTacToe(this.gameSetup.name);
     }
 }
 
 decorate(MainStore, {
-    newGame: observable,
+    gameSetup: observable,
     ticTacToe: observable,
     getNewTicTacToeGame: action
 });
