@@ -76,9 +76,10 @@ function Board() {
     );
 }
 
-
-
-function TicTacToe() {
+const TicTacToe = inject('mainStore')(observer(({mainStore}) => {
+    if (mainStore.ticTacToe === null)
+        return;
+    
     return (
         <div className="game">
             <GameMessage />
@@ -90,6 +91,6 @@ function TicTacToe() {
             </div>
         </div>
     );
-};
+}));
 
 export default TicTacToe;
