@@ -30,6 +30,7 @@ export class TicTacToe {
                 // TODO: maybe check response?
                 updateBoard(that)
                 updateWinner(that)
+                updateCurrentPlayer(that)
             })
             .catch(function (error) {
                 console.log(error);
@@ -64,6 +65,16 @@ async function updateWinner(that) {
             // treat " " as null
             if (response.data.winner !== " ")
                 that.winner = response.data.winner;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+async function updateCurrentPlayer(that) {
+    await Axios.get("http://localhost:5000/game/current_player")
+        .then(function (response) {
+            that.currentPlayer = response.data.currentPlayer;
         })
         .catch(function (error) {
             console.log(error);
