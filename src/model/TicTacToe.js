@@ -9,6 +9,10 @@ export class TicTacToe {
     history = [new Array(9).fill(null)];
     timeshiftStep = null;
 
+    constructor() {
+        updateAll(this);
+    }
+
     getCell(position) {
         let historyNum;
 
@@ -28,9 +32,7 @@ export class TicTacToe {
             .then(function (response) {
                 console.log(response)
                 // TODO: maybe check response?
-                updateBoard(that)
-                updateWinner(that)
-                updateCurrentPlayer(that)
+                updateAll(that);
             })
             .catch(function (error) {
                 console.log(error);
@@ -48,6 +50,12 @@ export class TicTacToe {
 }
 
 // Private helper functions
+function updateAll(that) {
+    updateBoard(that);
+    updateWinner(that);
+    updateCurrentPlayer(that);
+}
+
 async function updateBoard(that) {
     await Axios.get("http://localhost:5000/game/board")
         .then(function (response) {
