@@ -86,7 +86,7 @@ const TicTacToe = inject('mainStore')(observer(({mainStore}) => {
             <div className="game-body">
                 <Board />
                 <div className="game-info">
-                    <History />
+                    
                 </div>
             </div>
         </div>

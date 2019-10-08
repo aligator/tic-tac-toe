@@ -9,37 +9,31 @@ export class TicTacToe {
     history = [new Array(9).fill(null)];
     timeshiftStep = null;
 
-    getCell(number) {
-        let pos;
+    getCell(position) {
+        let historyNum;
 
         if (this.timeshiftStep !== null) {
-            pos = this.timeshiftStep;
+            historyNum = this.timeshiftStep;
         } else {
-            pos = this.history.length-1;
+            historyNum = this.history.length-1;
         }
 
-        return this.history[pos][number];
+        return this.history[historyNum][position];
     }
 
     doMove(position) {
-        // prevent manipulating if in timeshift mode
-        if (this.timeshiftStep !== null)
-            return;
+        let that = this;
 
-        if (this.winner !== null)
-            return;
-
-        const currentValue = this.getCell(position);
-
-        if (currentValue === null) {
-            setCell(this, position, this.currentPlayer)
-            
-            this.winner = calculateWinner(this);
-
-            if (this.winner === null) {
-                switchCurrentPlayer(this);
-            }
-        }
+        Axios.put("http://localhost:5000/game/board/" + Number(position))
+            .then(function (response) {
+                console.log(response)
+                // TODO: maybe check response?
+                updateBoard(that)
+                updateWinner(that)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     shiftTime(step) {
@@ -52,40 +46,28 @@ export class TicTacToe {
     }
 }
 
-// private helpler functions
-function switchCurrentPlayer(ticTacToe) {
-    ticTacToe.currentPlayer = ticTacToe.currentPlayer === PLAYERS[0] ? PLAYERS[1] : PLAYERS[0];
+// Private helper functions
+async function updateBoard(that) {
+    await Axios.get("http://localhost:5000/game/board")
+        .then(function (response) {
+            that.history[0] = response.data.board;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
-function calculateWinner(ticTacToe) {
-    // save all possible checks in const, as it's cleaner than some cracy for lopps
-    // and the possible checks won't change
-    const checks = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-
-    for (let i=0; i<checks.length; i++) {
-        let check = checks[i];
-
-        if (ticTacToe.getCell(check[0]) === ticTacToe.getCell(check[1])
-            && ticTacToe.getCell(check[0]) === ticTacToe.getCell(check[2])) {
-            return ticTacToe.getCell(check[0]);
-        }
-    }
-    return null;
-}
-
-function setCell(ticTacToe, number, playerValue) {
-    let newBoard = ticTacToe.history[ticTacToe.history.length-1].slice()
-    newBoard[number] = playerValue;
-    ticTacToe.history.push(observable(newBoard))
+async function updateWinner(that) {
+    await Axios.get("http://localhost:5000/game/winner")
+        .then(function (response) {
+            console.log(response.data.winner)
+            // treat " " as null
+            if (response.data.winner !== " ")
+                that.winner = response.data.winner;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 decorate(TicTacToe, {
